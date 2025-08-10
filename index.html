@@ -5,68 +5,118 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hoosh Tech Portal</title>
 	<link rel="icon" href="assets/logo/favicon.png?v=2" type="image/png" >
-    <style>
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
-        body {
-            background-image: url('assets/images/hoosh_tech_portal.png');
-            background-size: contain;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-color: #E0E0E0;
-        }
-    </style>
-	<style>
-        :root { --brand: #28C76F; }
+<style>
+    :root{
+      --brand:#28C76F;
+      --overlayMaxWidth: 700px;
+      --overlayPad: clamp(12px, 3vw, 24px);
+      --overlayFont: clamp(14px, 2.2vw, 18px); /* responsive overlay text */
+    }
 
-        .cloud-overlay {
-            position: fixed;
-            inset: 0;
-            display: grid;
-            place-items: center;
-            padding: 1rem;
-            z-index: 10;
-        }
+    /* Page should scroll if image exceeds viewport */
+    html, body {
+      height: 100%;
+      margin: 0;
+      overflow: auto; /* allow both vertical & horizontal scroll as needed */
+    }
 
-        .cloud-box {
-            background-color: var(--brand);
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.7); 
-            max-width: 600px; 
-            width: 90vw;
-			transform: translateX(50px);
-			margin-top: 100px;
-        }
+    /* Ensure image renders at natural size (no auto-scaling) */
+    img {
+      display: block;     /* remove inline-gap */
+      max-width: none;    /* don't shrink to fit container */
+      height: auto;       /* keep its natural aspect ratio */
+    }
 
-        .cloud-text {
-            color: red;
-            font-family: Arial, Helvetica, sans-serif;
-            font-size: clamp(14px, 1.8vw, 20px);
-            line-height: 1.4;
-            text-align: center;
-            font-weight: 500;
-        }
+    /* Wrapper is unconstrained so the image defines the scrollable area */
+    .image-wrapper {
+      position: relative;
+    }
 
-        .cloud-text .emph {
-            font-weight: 600;
-        }
-    </style>
+    /* Overlay layer centered in viewport, doesn't block page scroll outside the box */
+    .cloud-overlay{
+      position: fixed;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      z-index: 1000;
+      pointer-events: none; /* let page scroll when touching outside the notice */
+    }
+
+    /* The notice box */
+    .notice-box{
+      pointer-events: auto;        /* box itself is interactive */
+      background: var(--brand);
+      color: #fff;
+      width: min(92vw, var(--overlayMaxWidth));
+      padding: var(--overlayPad);
+      border-radius: 14px;
+      box-shadow: 0 12px 28px rgba(0,0,0,.3);
+      text-align: center;
+      font: 500 var(--overlayFont)/1.45 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      position: relative;
+      animation: fadeIn .25s ease-out;
+    }
+    .notice-box .emph{ font-weight: 700; }
+
+    /* Dismiss (X) button */
+    .notice-close{
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 36px;
+      height: 36px;
+      border: 0;
+      border-radius: 999px;
+      background: rgba(255,255,255,.18);
+      color: #fff;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+    }
+    .notice-close:hover{ background: rgba(255,255,255,.28); }
+    .notice-close:focus{ outline: 2px solid rgba(255,255,255,.6); outline-offset: 2px; }
+
+    /* Tiny phones: trim padding slightly */
+    @media (max-width: 360px){
+      .notice-box{ padding: clamp(10px, 3vw, 18px); }
+    }
+
+    @keyframes fadeIn { from{opacity:0; transform: translateY(6px);} to{opacity:1; transform: translateY(0);} }
+    @media (prefers-reduced-motion: reduce){ .notice-box{ animation: none; } }
+  </style>
 </head>
 <body>
-<div class="cloud-overlay">
-    <div class="cloud-box">
-        <div class="cloud-text">
+
+  <!-- Natural-size image; page scrolls to reveal the rest -->
+  <div class="image-wrapper">
+    <img src="assets/images/hoosh_tech_portal.png" alt="Upcoming Hoosh Tech Portal's main page mockup" />
+  </div>
+
+  <!-- Fixed, centered, dismissible overlay -->
+  <div class="cloud-overlay" id="announcement">
+    <div class="notice-box" role="dialog" aria-label="Product announcement">
+      <button class="notice-close" aria-label="Dismiss announcement" title="Close">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M6 6l12 12M18 6L6 18" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
             Our <span class="emph">Hoosh Tech Portal</span> is currently in its final development and testing,
             with over 80% of the platform already fully implemented. We are on track for a full launch by the end of 2025.
             In the meantime, feel free to <span class="emph">Contact Us</span> for a personalized demo or to ask any questions —
             we’d love to hear from you.
-        </div>
     </div>
-</div>
+  </div>
+
+  <script>
+    // Dismiss overlay
+    document.addEventListener('click', function(e){
+      if(e.target.closest('.notice-close')){
+        const el = document.getElementById('announcement');
+        if(el) el.remove();
+      }
+    });
+  </script>
+
+
 </body>
 </html>
-
