@@ -6,84 +6,87 @@
     <title>Hoosh Tech Portal</title>
 	<link rel="icon" href="assets/logo/favicon.png?v=2" type="image/png" >
 <style>
-    :root{
-      --brand:#28C76F;
-      --overlayMaxWidth: 700px;
-      --overlayPad: clamp(12px, 3vw, 24px);
-      --overlayFont: clamp(14px, 2.2vw, 18px); /* responsive overlay text */
-    }
+  :root{
+    --brand:#28C76F;
+    --overlayMaxWidth: 700px;
+    --overlayPad: clamp(12px, 3vw, 24px);
+    --overlayFont: clamp(14px, 2.2vw, 18px); /* responsive overlay text */
+  }
 
-    /* Page should scroll if image exceeds viewport */
-    html, body {
-      height: 100%;
-      margin: 0;
-      overflow: auto; /* allow both vertical & horizontal scroll as needed */
-    }
+  html, body {
+    height: 100%;
+    margin: 0;
+    overflow: auto; /* allow vertical & horizontal scroll if needed */
+  }
 
-    /* Ensure image renders at natural size (no auto-scaling) */
-    img {
-      display: block;     /* remove inline-gap */
-      max-width: none;    /* don't shrink to fit container */
-      height: auto;       /* keep its natural aspect ratio */
-    }
+  /* Default (mobile & small screens): show image at natural size (no scaling) */
+  .image-wrapper img {
+    display: block;
+    max-width: none; /* no downscaling */
+    height: auto;    /* preserve aspect ratio */
+  }
 
-    /* Wrapper is unconstrained so the image defines the scrollable area */
-    .image-wrapper {
-      position: relative;
+  /* Desktop: fit width-wise, scroll height-wise */
+  @media (min-width: 992px) {
+    .image-wrapper img {
+      width: 100vw;  /* fill viewport width */
+      height: auto;  /* keep aspect ratio */
+      max-width: none;
     }
+    /* Avoid accidental horizontal scroll when width is pinned to 100vw */
+    body { overflow-x: hidden; }
+  }
 
-    /* Overlay layer centered in viewport, doesn't block page scroll outside the box */
-    .cloud-overlay{
-      position: fixed;
-      inset: 0;
-      display: grid;
-      place-items: center;
-      z-index: 1000;
-      pointer-events: none; /* let page scroll when touching outside the notice */
-    }
+  .image-wrapper { position: relative; }
 
-    /* The notice box */
-    .notice-box{
-      pointer-events: auto;        /* box itself is interactive */
-      background: var(--brand);
-      color: #FF0000;
-      width: min(92vw, var(--overlayMaxWidth));
-      padding: var(--overlayPad);
-      border-radius: 14px;
-      box-shadow: 0 12px 28px rgba(0,0,0,.3);
-      text-align: center;
-      font: 500 var(--overlayFont)/1.45 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-      position: relative;
-      animation: fadeIn .25s ease-out;
-    }
-    .notice-box .emph{ font-weight: 700; }
+  .cloud-overlay{
+    position: fixed;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    z-index: 1000;
+    pointer-events: none; /* let page scroll when touching outside the notice */
+  }
 
-    /* Dismiss (X) button */
-    .notice-close{
-      position: absolute;
-      top: 8px;
-      right: 8px;
-      width: 36px;
-      height: 36px;
-      border: 0;
-      border-radius: 999px;
-      background: rgba(255,255,255,.18);
-      color: #fff;
-      cursor: pointer;
-      display: grid;
-      place-items: center;
-    }
-    .notice-close:hover{ background: rgba(255,255,255,.28); }
-    .notice-close:focus{ outline: 2px solid rgba(255,255,255,.6); outline-offset: 2px; }
+  .notice-box{
+    pointer-events: auto;        /* box itself is interactive */
+    background: var(--brand);
+    color: #FF0000;              /* your red text */
+    width: min(92vw, var(--overlayMaxWidth));
+    padding: var(--overlayPad);
+    border-radius: 14px;
+    box-shadow: 0 12px 28px rgba(0,0,0,.3);
+    text-align: center;
+    font: 500 var(--overlayFont)/1.45 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+    position: relative;
+    animation: fadeIn .25s ease-out;
+  }
+  .notice-box .emph{ font-weight: 700; }
 
-    /* Tiny phones: trim padding slightly */
-    @media (max-width: 360px){
-      .notice-box{ padding: clamp(10px, 3vw, 18px); }
-    }
+  .notice-close{
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 36px;
+    height: 36px;
+    border: 0;
+    border-radius: 999px;
+    background: rgba(255,255,255,.18);
+    color: #fff;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+  }
+  .notice-close:hover{ background: rgba(255,255,255,.28); }
+  .notice-close:focus{ outline: 2px solid rgba(255,255,255,.6); outline-offset: 2px; }
 
-    @keyframes fadeIn { from{opacity:0; transform: translateY(6px);} to{opacity:1; transform: translateY(0);} }
-    @media (prefers-reduced-motion: reduce){ .notice-box{ animation: none; } }
-  </style>
+  @media (max-width: 360px){
+    .notice-box{ padding: clamp(10px, 3vw, 18px); }
+  }
+
+  @keyframes fadeIn { from{opacity:0; transform: translateY(6px);} to{opacity:1; transform: translateY(0);} }
+  @media (prefers-reduced-motion: reduce){ .notice-box{ animation: none; } }
+</style>
 </head>
 <body>
 
@@ -120,4 +123,3 @@
 
 </body>
 </html>
-
