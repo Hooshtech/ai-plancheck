@@ -5,97 +5,95 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hoosh Tech Portal</title>
 	<link rel="icon" href="assets/logo/favicon.png?v=2" type="image/png" >
-<style>
-  :root{
-    --brand:#28C76F;
-    --overlayMaxWidth: 700px;
-    --overlayPad: clamp(12px, 3vw, 24px);
-    --overlayFont: clamp(14px, 2.2vw, 18px); /* responsive overlay text */
-  }
+    <style>
+      :root{
+        --brand:#28C76F;
+        --overlayMaxWidth: 700px;
+        --overlayPad: clamp(12px, 3vw, 24px);
+        --overlayFont: clamp(14px, 2.2vw, 18px);
+      }
 
-  html, body {
-    height: 100%;
-    margin: 0;
-    overflow: auto; /* allow vertical & horizontal scroll if needed */
-  }
+      html, body {
+        height: 100%;
+        margin: 0;
+        overflow: auto; 
+      }
 
-  /* Default (mobile & small screens): show image at natural size (no scaling) */
-  .image-wrapper img {
-    display: block;
-    max-width: none; /* no downscaling */
-    height: auto;    /* preserve aspect ratio */
-  }
+      /* Default (mobile & small screens): show image at natural size (no scaling) */
+      .image-wrapper img {
+        display: block;
+        max-width: none;
+        height: auto;
+      }
 
-  /* Desktop: fit width-wise, scroll height-wise */
-  @media (min-width: 992px) {
-    .image-wrapper img {
-      width: 100vw;  /* fill viewport width */
-      height: auto;  /* keep aspect ratio */
-      max-width: none;
-    }
-    /* Avoid accidental horizontal scroll when width is pinned to 100vw */
-    body { overflow-x: hidden; }
-  }
+      /* Desktop: fit width-wise, scroll height-wise */
+      @media (min-width: 992px) {
+        .image-wrapper img {
+          width: 100vw;
+          height: auto;
+          max-width: none;
+        }
+        /* Avoid accidental horizontal scroll when width is pinned to 100vw */
+        body { overflow-x: hidden; }
+      }
 
-  .image-wrapper { position: relative; }
+      .image-wrapper { position: relative; }
 
-  .cloud-overlay{
-    position: fixed;
-    inset: 0;
-    display: grid;
-    place-items: center;
-    z-index: 1000;
-    pointer-events: none; /* let page scroll when touching outside the notice */
-  }
+      .cloud-overlay{
+        position: fixed;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        z-index: 1000;
+        pointer-events: none;
+      }
 
-  .notice-box{
-    pointer-events: auto;        /* box itself is interactive */
-    background: var(--brand);
-    color: #FF0000;              /* your red text */
-    width: min(92vw, var(--overlayMaxWidth));
-    padding: var(--overlayPad);
-    border-radius: 14px;
-    box-shadow: 0 12px 28px rgba(0,0,0,.3);
-    text-align: center;
-    font: 500 var(--overlayFont)/1.45 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-    position: relative;
-    animation: fadeIn .25s ease-out;
-  }
-  .notice-box .emph{ font-weight: 700; }
+      .notice-box{
+        pointer-events: auto;
+        background: var(--brand);
+        color: #FF0000; 
+        width: min(92vw, var(--overlayMaxWidth));
+        padding: var(--overlayPad);
+        border-radius: 14px;
+        box-shadow: 0 12px 28px rgba(0,0,0,.3);
+        text-align: center;
+        font: 500 var(--overlayFont)/1.45 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+        position: relative;
+        animation: fadeIn .25s ease-out;
+      }
+      .notice-box .emph{ font-weight: 700; }
 
-  .notice-close{
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    width: 36px;
-    height: 36px;
-    border: 0;
-    border-radius: 999px;
-    background: rgba(255,255,255,.18);
-    color: #fff;
-    cursor: pointer;
-    display: grid;
-    place-items: center;
-  }
-  .notice-close:hover{ background: rgba(255,255,255,.28); }
-  .notice-close:focus{ outline: 2px solid rgba(255,255,255,.6); outline-offset: 2px; }
+      .notice-close{
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 36px;
+        height: 36px;
+        border: 0;
+        border-radius: 999px;
+        background: rgba(255,255,255,.18);
+        color: #fff;
+        cursor: pointer;
+        display: grid;
+        place-items: center;
+      }
+      .notice-close:hover{ background: rgba(255,255,255,.28); }
+      .notice-close:focus{ outline: 2px solid rgba(255,255,255,.6); outline-offset: 2px; }
 
-  @media (max-width: 360px){
-    .notice-box{ padding: clamp(10px, 3vw, 18px); }
-  }
+      @media (max-width: 360px){
+        .notice-box{ padding: clamp(10px, 3vw, 18px); }
+      }
 
-  @keyframes fadeIn { from{opacity:0; transform: translateY(6px);} to{opacity:1; transform: translateY(0);} }
-  @media (prefers-reduced-motion: reduce){ .notice-box{ animation: none; } }
-</style>
+      @keyframes fadeIn { from{opacity:0; transform: translateY(6px);} to{opacity:1; transform: translateY(0);} }
+      @media (prefers-reduced-motion: reduce){ .notice-box{ animation: none; } }
+    </style>
 </head>
 <body>
 
-  <!-- Natural-size image; page scrolls to reveal the rest -->
   <div class="image-wrapper">
     <img src="assets/images/hoosh_tech_portal.png" alt="Upcoming Hoosh Tech Portal's main page mockup" />
   </div>
 
-  <!-- Fixed, centered, dismissible overlay -->
   <div class="cloud-overlay" id="announcement">
     <div class="notice-box" role="dialog" aria-label="Product announcement">
       <button class="notice-close" aria-label="Dismiss announcement" title="Close">
@@ -103,15 +101,14 @@
           <path d="M6 6l12 12M18 6L6 18" stroke="white" stroke-width="2" stroke-linecap="round"/>
         </svg>
       </button>
-            Our <span class="emph">Hoosh Tech Portal</span> is currently in its final development and testing,
-            with over 80% of the platform already fully implemented. We are on track for a full launch by the end of 2025.
-            In the meantime, feel free to <span class="emph">Contact Us</span> for a personalized demo or to ask any questions —
-            we’d love to hear from you.
+        Our <span class="emph">Hoosh Tech Portal</span> is currently in its final development and testing,
+        with over 80% of the platform already fully implemented. We are on track for a full launch by the end of 2025.
+        In the meantime, feel free to <span class="emph">Contact Us</span> for a personalized demo or to ask any questions —
+        we’d love to hear from you.
     </div>
   </div>
 
   <script>
-    // Dismiss overlay
     document.addEventListener('click', function(e){
       if(e.target.closest('.notice-close')){
         const el = document.getElementById('announcement');
@@ -120,6 +117,6 @@
     });
   </script>
 
-
 </body>
 </html>
+
